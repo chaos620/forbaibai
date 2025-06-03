@@ -13,9 +13,9 @@ namespace DefaultNamespace.Manager
 
     public class PostData
     {
-        public string Content;
-        public string Time;
-        public string ImageName;
+        public string Content = "";
+        public string Time = "";
+        public string ImageName = "";
         public int PraiseCount;
         public int CommentCount;
         public List<CommentData> Comments = new List<CommentData>();

@@ -1,4 +1,5 @@
 using System;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace DefaultNamespace.Manager
@@ -13,9 +14,9 @@ namespace DefaultNamespace.Manager
             Load();
         }
 
-        private void Save()
+        public void Save()
         {
-            var json = JsonUtility.ToJson(_userData);
+            var json = JsonConvert.SerializeObject(_userData);
             PlayerPrefs.SetString(SaveKey, json);
             PlayerPrefs.Save();
         }
@@ -39,7 +40,7 @@ namespace DefaultNamespace.Manager
             var json = PlayerPrefs.GetString(SaveKey);
             try
             {
-                _userData = JsonUtility.FromJson<UserData>(json);
+                _userData = JsonConvert.DeserializeObject<UserData>(json);
 
                 if (_userData == null)
                 {
