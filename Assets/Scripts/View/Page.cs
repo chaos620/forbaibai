@@ -19,6 +19,9 @@ namespace DefaultNamespace
         public Button AddPost;
         public Button HideBtn;
 
+        public Transform ScrollToolTrans;
+        public GameObject TitleToolObj;
+
         private void Awake()
         {
             Instance = this;
@@ -35,6 +38,11 @@ namespace DefaultNamespace
             EditUserPage.Init();
             
             Refresh();
+        }
+
+        private void Update()
+        {
+            TitleToolObj.SetActive(TitleToolObj.transform.position.y < ScrollToolTrans.position.y);
         }
 
         public void OnClickEditUserInfo()
