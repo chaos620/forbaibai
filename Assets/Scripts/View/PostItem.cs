@@ -1,3 +1,4 @@
+using System;
 using DefaultNamespace.Manager;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,9 +14,19 @@ namespace DefaultNamespace
         public GameRawImage MainRawImage;
         public Text GoodText;
         public Text CommentText;
+        public Button EditButton;
+        public EditPostButtonView EditPostButtonView;
 
-        public void Refresh(PostData data)
+        private int _index;
+
+        private void Awake()
         {
+            EditButton.onClick.AddListener(OnClickEditButton);
+        }
+
+        public void Refresh(int index, PostData data)
+        {
+            _index = index;
             var userData = UserManager.Instance.GetUserData();
 
             NameText.text = userData.Name;
@@ -34,6 +45,18 @@ namespace DefaultNamespace
 
             GoodText.text = data.PraiseCount.ToString();
             CommentText.text = data.CommentCount.ToString();
+        }
+
+        public void OnClickEditButton()
+        {
+            if (!EditPostButtonView.IsShow())
+            {
+                EditPostButtonView.Show(_index);
+            }
+            else
+            {
+                EditPostButtonView.Hide();
+            }
         }
     }
 }

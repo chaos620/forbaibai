@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace.Manager;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
@@ -25,13 +27,22 @@ namespace DefaultNamespace
                 }
                 
                 items[i].gameObject.SetActive(true);
-                items[i].Refresh(posts[i]);
+                items[i].Refresh(i, posts[i]);
             }
 
             for (; i < items.Count; i++)
             {
                 items[i].gameObject.SetActive(false);
             }
+
+            StartCoroutine(RefreshLayout());
+        }
+
+        private IEnumerator RefreshLayout()
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate(Parent as RectTransform);
+            yield return new WaitForEndOfFrame();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(Parent as RectTransform);
         }
 
         private PostItem CreateOnePostItem()

@@ -53,6 +53,7 @@
     <Compile Include="Assets/Scripts/Singleton.cs" />
     <Compile Include="Assets/Scripts/Manager/UserManager.cs" />
     <Compile Include="Assets/Scripts/View/Page.cs" />
+    <Compile Include="Assets/Scripts/View/EditPostButtonView.cs" />
     <Compile Include="Assets/Scripts/GameRawImage.cs" />
     <Compile Include="Assets/Scripts/GameManager.cs" />
     <Compile Include="Assets/Scripts/View/PostItem.cs" />
