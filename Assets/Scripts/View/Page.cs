@@ -11,9 +11,11 @@ namespace DefaultNamespace
 
         public UserView UserView;
         public PostView PostView;
+        public CommentView CommentView;
         
         public EditUserPage EditUserPage;
         public EditPostPage EditPostPage;
+        public EditCommentPage EditCommentPage;
         
         public Button EditUserInfo;
         public Button AddPost;
@@ -21,6 +23,9 @@ namespace DefaultNamespace
 
         public Transform ScrollToolTrans;
         public GameObject TitleToolObj;
+        public Text TitleName;
+
+        public bool IsHide;
 
         private void Awake()
         {
@@ -28,9 +33,11 @@ namespace DefaultNamespace
             
             EditUserPage.InitUI();
             EditPostPage.InitUI();
+            EditCommentPage.InitUI();
             
             EditUserInfo.onClick.AddListener(OnClickEditUserInfo);
             AddPost.onClick.AddListener(OnClickEditPost);
+            HideBtn.onClick.AddListener(OnClickHideBtn);
         }
 
         private void Start()
@@ -42,7 +49,9 @@ namespace DefaultNamespace
 
         private void Update()
         {
-            TitleToolObj.SetActive(TitleToolObj.transform.position.y < ScrollToolTrans.position.y);
+            bool isShow = TitleToolObj.transform.position.y < ScrollToolTrans.position.y;
+            TitleToolObj.SetActive(isShow);
+            TitleName.gameObject.SetActive(isShow);
         }
 
         public void OnClickEditUserInfo()
@@ -58,8 +67,37 @@ namespace DefaultNamespace
 
         public void Refresh()
         {
+            TitleName.text = UserManager.Instance.GetUserData().Name;
             UserView.Refresh();
             PostView.Refresh();
+        }
+
+        public void RefreshComment(PostData data)
+        {
+            CommentView.Refresh(data);
+        }
+
+        public void OnClickAddComment(PostData postData)
+        {
+            EditCommentPage.OnOpen(true, postData, new CommentData());
+        }
+
+        public void OnClickEditComment(PostData postData, CommentData commentData)
+        {
+            EditCommentPage.OnOpen(false, postData, commentData);
+        }
+        public void ShowCommentView(int index)
+        {
+            var comments = UserManager.Instance.GetUserData().Posts[index];
+            CommentView.OnOpen(comments);
+        }
+
+        public void OnClickHideBtn()
+        {
+            IsHide = !IsHide;
+            AddPost.gameObject.SetActive(!IsHide);
+            EditUserInfo.gameObject.SetActive(!IsHide);
+            HideBtn.GetComponent<CanvasGroup>().alpha = IsHide ? 0 : 1;
         }
     }
 }

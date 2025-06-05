@@ -16,12 +16,13 @@ namespace DefaultNamespace
         public Text CommentText;
         public Button EditButton;
         public EditPostButtonView EditPostButtonView;
-
+        public Button Commentbtn;
         private int _index;
 
         private void Awake()
         {
             EditButton.onClick.AddListener(OnClickEditButton);
+            Commentbtn.onClick.AddListener(OnClickCommentBtn);
         }
 
         public void Refresh(int index, PostData data)
@@ -43,7 +44,7 @@ namespace DefaultNamespace
                 MainRawImage.Init(GameHelper.GetImagePath(data.ImageName));
             }
 
-            GoodText.text = data.PraiseCount.ToString();
+            GoodText.text = data.PraiseCountStr.ToString();
             CommentText.text = data.CommentCount.ToString();
         }
 
@@ -57,6 +58,11 @@ namespace DefaultNamespace
             {
                 EditPostButtonView.Hide();
             }
+        }
+
+        private void OnClickCommentBtn()
+        {
+            Page.Instance.ShowCommentView(_index);
         }
     }
 }

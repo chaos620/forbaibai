@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
-    public class EditPostPage : MonoBehaviour
+    public class EditCommentPage : MonoBehaviour
     {
-        public InputField TimeInputField;
+        public InputField NameInputField;
         public InputField ContentInputField;
         public InputField PraiseCountInputField;
         public InputField CommentCountInputField;
@@ -19,7 +19,8 @@ namespace DefaultNamespace
 
         private string _imageName;
         private bool _isNew;
-        private PostData _data;
+        private CommentData _data;
+        private PostData _postData;
 
         public void InitUI()
         {
@@ -31,48 +32,48 @@ namespace DefaultNamespace
             gameObject.SetActive(false);
         }
 
-        public void OnOpen(bool isNew, PostData data)
+        public void OnOpen(bool isNew, PostData postData, CommentData data)
         {
             _isNew = isNew;
+            _postData = postData;
             _data = data;
-            _imageName = _data.ImageName;
+            _imageName = _data.Avatar;
             Refresh();
             gameObject.SetActive(true);
         }
 
         private void Refresh()
         {
-            if (!string.IsNullOrEmpty(_data.ImageName))
+            if (!string.IsNullOrEmpty(_data.Avatar))
             {
-                ShowImage.texture = RawManager.Instance.LoadSaveImage(GameHelper.GetImagePath(_data.ImageName));
+                ShowImage.texture = RawManager.Instance.LoadSaveImage(GameHelper.GetImagePath(_data.Avatar));
             }
             else
             {
                 ShowImage.texture = null;
             }
-            TimeInputField.text = _data.Time;
+            NameInputField.text = _data.Name;
             ContentInputField.text = _data.Content;
-            PraiseCountInputField.text = _data.PraiseCountStr.ToString();
+            PraiseCountInputField.text = _data.PraiseCountStr;
             CommentCountInputField.text = _data.CommentCount.ToString();
         }
 
         private void OnClickSave()
         {
-            _data.ImageName = _imageName;
+            _data.Avatar = _imageName;
             _data.PraiseCountStr = PraiseCountInputField.text;
             _data.CommentCount = int.Parse(CommentCountInputField.text);
-            _data.Time = TimeInputField.text;
+            _data.Name = NameInputField.text;
             _data.Content = ContentInputField.text;
 
             if (_isNew)
             {
-                var userData = UserManager.Instance.GetUserData();
-                userData.Posts.Add(_data);
+                _postData.Comments.Add(_data);
             }
             
             UserManager.Instance.Save();
             
-            Page.Instance.Refresh();
+            Page.Instance.RefreshComment(_postData);
             gameObject.SetActive(false);
         }
 

@@ -16,7 +16,7 @@ namespace DefaultNamespace.Manager
         public string Content = "";
         public string Time = "";
         public string ImageName = "";
-        public int PraiseCount;
+        public string PraiseCountStr = "";
         public int CommentCount;
         public List<CommentData> Comments = new List<CommentData>();
     }
@@ -26,7 +26,8 @@ namespace DefaultNamespace.Manager
         public string Avatar;
         public string Name;
         public string Content;
-        public int PraiseCount;
+        public string PraiseCountStr;
         public string Time;
+        public int CommentCount;
     }
 }

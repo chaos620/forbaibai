@@ -19,8 +19,13 @@ namespace DefaultNamespace
             var tex = RawManager.Instance.LoadSaveImage(path);
             if (tex != null)
             {
-                _image.texture = tex;
+                GetComponent<RawImage>().texture = tex;
             }
+        }
+
+        public void Clear()
+        {
+            _image.texture = null;
         }
     }
 }
