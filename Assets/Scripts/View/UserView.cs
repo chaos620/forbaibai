@@ -20,7 +20,7 @@ namespace DefaultNamespace
 
             var data = UserManager.Instance.GetUserData();
 
-            Name.text = data.Name;
+            Name.text = $"<b>{data.Name}</b>";
             NameTitle.text = data.Name;
             Title.text = data.Name;
             Sign.text = data.Signature;
